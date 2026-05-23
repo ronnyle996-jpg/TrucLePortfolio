@@ -592,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── SOCIAL VIDEO PLAY CONTROLLER ────────────────
   window.toggleVideoPlay = function(card) {
     const video = card.querySelector('video');
-    const isPlaying = !video.paused && !video.ended;
+    const isPlaying = card.classList.contains('playing');
     
     // Pause all other videos on the page so only one plays at a time
     document.querySelectorAll('.portfolio-video').forEach(otherVideo => {
@@ -619,7 +619,19 @@ document.addEventListener('DOMContentLoaded', () => {
       // For teaser videos: seek back to start if at the thumbnail frame or ended
       if (card.closest('#tab-content-teaser')) {
         if (video.currentTime >= video.duration - 2.5 || video.ended) {
+          // Play only AFTER the seek back to 0 has fully completed to prevent end-frame flash
+          const onSeeked = () => {
+            video.removeEventListener('seeked', onSeeked);
+            video.play().then(() => {
+              video.controls = true;
+              card.classList.add('playing');
+            }).catch(err => {
+              console.error("Play failed after seek: ", err);
+            });
+          };
+          video.addEventListener('seeked', onSeeked);
           video.currentTime = 0;
+          return;
         }
       }
       
@@ -666,8 +678,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Run teaser video initialization
+  // ─── INITIALIZE SOCIAL POST VIDEOS (NO LOOP & END TRANSITION) ───
+  const initSocialVideos = () => {
+    document.querySelectorAll('#tab-content-socialpost-v video').forEach(video => {
+      // Disable looping
+      video.removeAttribute('loop');
+      video.loop = false;
+
+      // Handle end of playback
+      video.addEventListener('ended', () => {
+        video.controls = false;
+        const card = video.closest('.video-card');
+        if (card) {
+          card.classList.remove('playing');
+        }
+        video.currentTime = 0;
+      });
+    });
+  };
+
+  // Run initializations
   initTeaserVideos();
+  initSocialVideos();
 
   console.log('%c TRÚC LÊ PORTFOLIO ', 'background:#00f0ff;color:#000;font-family:monospace;font-size:14px;font-weight:bold;padding:8px 16px;');
   console.log('%c Creative Producer · Designer · Editor ', 'color:#00f0ff;font-family:monospace;');
