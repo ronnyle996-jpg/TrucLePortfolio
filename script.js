@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Running locally/offline. Switching all video sources to local VIDEO/ folder...");
     document.querySelectorAll('.portfolio-video').forEach(video => {
       const currentSrc = video.getAttribute('src');
-      if (currentSrc && currentSrc.includes('releases/download/v1.0/')) {
-        let filename = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
-        // GitHub release filenames use dots like SOCIAL.1.mp4, but local filenames use spaces like SOCIAL 1.mp4
-        if (filename.startsWith("SOCIAL.")) {
-          filename = filename.replace("SOCIAL.", "SOCIAL ");
+      if (currentSrc && currentSrc.includes('dropbox.com/')) {
+        let urlWithoutParams = currentSrc.split('?')[0];
+        let filename = urlWithoutParams.substring(urlWithoutParams.lastIndexOf('/') + 1);
+        if (filename.startsWith("SOCIAL-")) {
+          filename = filename.replace("SOCIAL-", "SOCIAL ");
         }
         video.src = "VIDEO/" + filename;
         video.load();
