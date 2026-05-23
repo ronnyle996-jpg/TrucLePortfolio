@@ -3152,8 +3152,29 @@ a.cv-contact-val:hover { color: var(--neon); }
   .carousel-track-3d {
     width: 270px !important;
     height: 253px !important;
-  }
 }
+
+/* ─── CONTACT STAR ROTATING ICONS ─── */
+.cv-contact-star {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.8));
+  animation: rotate-star 8s infinite linear;
+}
+
+.contact-star {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7));
+  animation: rotate-star 8s infinite linear;
+}
+
 
 
 
