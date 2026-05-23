@@ -4,6 +4,29 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ─── AUTOMATIC OFFLINE/LOCAL VIDEO SOURCE SWITCHER ────────────────
+  // If running locally (via file:// protocol or localhost), dynamically
+  // rewrite video sources to use the local VIDEO/ folder.
+  const isLocal = window.location.protocol === 'file:' || 
+                  window.location.hostname === 'localhost' || 
+                  window.location.hostname === '127.0.0.1';
+                  
+  if (isLocal) {
+    console.log("Running locally/offline. Switching all video sources to local VIDEO/ folder...");
+    document.querySelectorAll('.portfolio-video').forEach(video => {
+      const currentSrc = video.getAttribute('src');
+      if (currentSrc && currentSrc.includes('releases/download/v1.0/')) {
+        let filename = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
+        // GitHub release filenames use dots like SOCIAL.1.mp4, but local filenames use spaces like SOCIAL 1.mp4
+        if (filename.startsWith("SOCIAL.")) {
+          filename = filename.replace("SOCIAL.", "SOCIAL ");
+        }
+        video.src = "VIDEO/" + filename;
+        video.load();
+      }
+    });
+  }
+
   // ─── CUSTOM CURSOR ───────────────────────────────
   const cursor = document.getElementById('cursor');
   const follower = document.getElementById('cursor-follower');
@@ -101,6 +124,16 @@ document.addEventListener('DOMContentLoaded', () => {
           if (c.id === 'tab-content-' + tab) {
             c.classList.add('active');
           }
+        });
+
+        // Auto-center the clicked tab button in the scrollable tab navigation bar
+        const containerWidth = tabNav.clientWidth;
+        const btnWidth = btn.clientWidth;
+        const btnLeft = btn.offsetLeft;
+        const targetScrollLeft = btnLeft - (containerWidth / 2) + (btnWidth / 2);
+        tabNav.scrollTo({
+          left: targetScrollLeft,
+          behavior: 'smooth'
         });
       });
     });
@@ -309,12 +342,12 @@ document.addEventListener('DOMContentLoaded', () => {
         centerShift = 65; // 50 * 1.3 = 65
       }
       if (windowWidth < 860) {
-        spacing = 156; // 120 * 1.3 = 156
-        centerShift = 52; // 40 * 1.3 = 52
+        spacing = 160; // Adjusted for smaller 360px card size to show adjacent cards
+        centerShift = 10;
       }
       if (windowWidth < 600) {
-        spacing = 91; // 70 * 1.3 = 91
-        centerShift = 32; // 25 * 1.3 = 32.5
+        spacing = 120; // Adjusted for smaller 270px card size to show 10%-25% of adjacent cards
+        centerShift = -5;
       }
 
       carouselCards.forEach((card, index) => {

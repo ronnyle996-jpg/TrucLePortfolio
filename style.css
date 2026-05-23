@@ -1022,21 +1022,23 @@ a.cv-contact-val:hover { color: var(--neon); }
 /* Projects list */
 .cv-tl-projects { display: flex; flex-direction: column; gap: 8px; }
 .cv-tl-project-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  display: block;
+  position: relative;
+  padding-left: 15px;
   font-family: var(--font-body);
   font-size: 0.85rem;
   color: var(--grey-light);
   line-height: 1.5;
+  text-align: left;
 }
 .cv-tl-project-item strong { color: var(--white); font-weight: 500; }
 .cv-tl-dot-sm {
-  flex-shrink: 0;
+  position: absolute;
+  left: 0;
+  top: 7px;
   width: 5px; height: 5px;
   border-radius: 50%;
   background: rgba(0,240,255,0.4);
-  margin-top: 7px;
 }
 
 /* Sub-client cards inside Seniart */
@@ -2857,11 +2859,21 @@ a.cv-contact-val:hover { color: var(--neon); }
     overflow-x: auto;
     max-width: 100%;
     border-radius: 24px;
-    padding: 4px;
-    scrollbar-width: none;
+    padding: 4px 6px 8px 6px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(0, 240, 255, 0.35) transparent !important;
   }
   .tab-nav::-webkit-scrollbar {
-    display: none;
+    display: block !important;
+    height: 3px !important;
+  }
+  .tab-nav::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  .tab-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.35) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 6px rgba(0, 240, 255, 0.3) !important;
   }
   .tab-btn {
     font-size: 0.72rem;
@@ -3021,4 +3033,128 @@ a.cv-contact-val:hover { color: var(--neon); }
     filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.7));
   }
 }
+
+/* ─── NEW CENTERED THANK YOU & CONTACT LAYOUT ─── */
+.contact-thank-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px 40px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.thank-you-text {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.5vw, 68px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+  background: linear-gradient(135deg, #00f0ff 0%, #00ffaa 50%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 240, 255, 0.35));
+  animation: thankYouGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes thankYouGlow {
+  0% {
+    filter: drop-shadow(0 2px 8px rgba(0, 240, 255, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 4px 20px rgba(0, 255, 170, 0.5));
+  }
+}
+
+.contact-centered-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
+  flex-wrap: wrap;
+}
+
+.contact-centered-details .contact-item {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+  justify-content: flex-start;
+  text-align: left;
+  border-radius: 4px;
+}
+
+/* ─── PREMIUM MOBILE OPTIMIZATIONS ─── */
+
+/* 1. Disable Custom Cursor on Mobile/Touch Screens to prevent glitches and improve scroll performance */
+@media (max-width: 1024px), (pointer: coarse) {
+  body, a, button, select, input, textarea {
+    cursor: auto !important;
+  }
+  .cursor, .cursor-follower {
+    display: none !important;
+  }
+}
+
+/* 2. Improve Event Grid and Software Grid on smaller Mobile Devices */
+@media (max-width: 520px) {
+  .event-gallery-masonry {
+    column-count: 5 !important; /* 5 columns for a dense, mosaic-like collage of event recaps as requested */
+    column-gap: 5px !important;
+  }
+  
+  .event-gallery-masonry .gallery-card {
+    margin-bottom: 5px !important;
+  }
+  
+  .cv-software-grid {
+    grid-template-columns: repeat(3, 1fr) !important; /* 3 columns is much more readable for 6 items on mobile */
+    gap: 8px !important;
+  }
+}
+
+/* ─── WORK EXPERIENCE TEXT WRAP & 3D CAROUSEL SIZING OPTIMIZATIONS ─── */
+
+@media (max-width: 860px) {
+  /* Shrink tablet 3D Carousel container by ~20% to fit adjacent cards on screen */
+  .carousel-viewport-3d {
+    height: 500px !important;
+  }
+  .carousel-track-3d {
+    width: 360px !important;
+    height: 326px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Shrink Work Experience timeline text size slightly to prevent line-wrapping/dropping */
+  .cv-tl-project-item {
+    font-size: 0.74rem !important;
+    line-height: 1.4 !important;
+    padding-left: 12px !important;
+  }
+  .cv-tl-dot-sm {
+    top: 5px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  /* Shrink mobile 3D Carousel container by ~23% to fit adjacent cards on screen */
+  .carousel-viewport-3d {
+    height: 420px !important;
+  }
+  .carousel-track-3d {
+    width: 270px !important;
+    height: 253px !important;
+  }
+}
+
+
+
 
