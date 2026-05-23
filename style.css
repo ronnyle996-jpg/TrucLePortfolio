@@ -3175,6 +3175,24 @@ a.cv-contact-val:hover { color: var(--neon); }
   animation: rotate-star 8s infinite linear;
 }
 
+/* Responsive visibility utilities */
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: inline-block !important;
+  }
+  img.contact-star.mobile-only {
+    display: block !important;
+  }
+}
+
+
 
 
 
