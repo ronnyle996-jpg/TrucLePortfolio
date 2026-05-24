@@ -139,6 +139,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ─── NEXT TAB BUTTON ────────────────────────────
+  document.querySelectorAll('.btn-next-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nextTabId = btn.dataset.next;
+      const targetTabBtn = document.getElementById('tab-' + nextTabId);
+      if (targetTabBtn) {
+        targetTabBtn.click();
+        
+        // Scroll back up to the tabs navigation area slightly above to see the newly opened content
+        const section = targetTabBtn.closest('.section');
+        if (section) {
+          window.scrollTo({
+            top: section.offsetTop - 68,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+
 
   // ─── SCROLL REVEAL ──────────────────────────────
   const revealEls = document.querySelectorAll(

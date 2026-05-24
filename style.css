@@ -319,7 +319,7 @@ textarea { resize: vertical; }
 
 .brand-text {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(65px, 12.5vw, 170px);
+  font-size: clamp(80px, 15vw, 200px);
   font-weight: 400; /* Bebas Neue is a single weight display font */
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -329,14 +329,37 @@ textarea { resize: vertical; }
 
 .brand-white {
   color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
 .brand-cyan {
   color: var(--neon);
   text-shadow: 
-    0 0 16px rgba(0, 240, 255, 0.55),
-    0 4px 20px rgba(0, 0, 0, 0.4);
+    0 0 10px rgba(0, 240, 255, 0.6),
+    0 0 20px rgba(0, 240, 255, 0.4),
+    0 0 40px rgba(0, 240, 255, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.6);
+  animation: headtitlePulse 2s infinite alternate;
+}
+
+@keyframes headtitlePulse {
+  0% {
+    text-shadow: 
+      0 0 10px rgba(0, 240, 255, 0.6),
+      0 0 20px rgba(0, 240, 255, 0.4),
+      0 0 40px rgba(0, 240, 255, 0.2),
+      0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+  100% {
+    text-shadow: 
+      0 0 15px rgba(0, 240, 255, 0.8),
+      0 0 30px rgba(0, 240, 255, 0.6),
+      0 0 50px rgba(0, 240, 255, 0.4),
+      0 0 70px rgba(0, 240, 255, 0.2),
+      0 4px 20px rgba(0, 0, 0, 0.6);
+  }
 }
 
 .brand-star {
@@ -1201,6 +1224,28 @@ a.cv-contact-val:hover { color: var(--neon); }
 
 .tab-content { display: none; animation: fadeIn 0.4s ease both; }
 .tab-content.active { display: block; }
+
+/* ── NEXT TAB ACTION ── */
+.next-tab-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+.btn-next-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-next-tab .arrow {
+  font-family: var(--font-body);
+  transition: transform 0.3s var(--ease-out);
+}
+.btn-next-tab:hover .arrow {
+  transform: translateX(4px);
+}
 
 /* ─── GALLERY GRID & MASONRY ─── */
 .gallery-grid {
@@ -2266,6 +2311,7 @@ a.cv-contact-val:hover { color: var(--neon); }
   left: -40px;
   width: calc(100% + 80px);
   height: calc(100% + 80px);
+  max-width: none;
   object-fit: cover;
   opacity: 1; /* Keep full original opacity and vibrancy! */
   /* filter: grayscale(100%) contrast(1.15) brightness(0.85); -- Removed to keep 100% original color */
