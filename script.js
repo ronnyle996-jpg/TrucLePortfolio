@@ -430,17 +430,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) prevBtn.addEventListener('click', prevSlide);
     if (nextBtn) nextBtn.addEventListener('click', nextSlide);
 
-    // Clicking side cards shifts view to them
+    // Clicking side cards shifts view to them; clicking the active card opens lightbox
     let hoverFocusTimer = null;
     let hoverFocusArmed = true;
     let hoverFocusLockPoint = { x: 0, y: 0 };
     let hoverFocusLockedAt = 0;
     carouselCards.forEach((card, index) => {
-      card.addEventListener('click', () => { 
-        if (activeIndex !== index) { 
-          activeIndex = index; 
-          updateCarousel(); 
-        } 
+      card.addEventListener('click', (e) => {
+        if (activeIndex !== index) {
+          // Side card → rotate carousel to it
+          activeIndex = index;
+          updateCarousel();
+        } else {
+          // Active center card → open lightbox on the image inside
+          const img = card.querySelector('.carousel-card-img');
+          if (img) {
+            // openLightbox is defined later; dispatch a custom event to invoke it
+            card.dispatchEvent(new CustomEvent('lb-open', { detail: { img }, bubbles: true }));
+          }
+        }
       });
 
       card.addEventListener('mouseenter', (e) => {
@@ -720,6 +728,125 @@ document.addEventListener('DOMContentLoaded', () => {
   // Run initializations
   initTeaserVideos();
   initSocialVideos();
+
+  // ─── LIGHTBOX (Events + Design Image Zoom) ──────────────
+  const lightbox     = document.getElementById('lightbox');
+  const lightboxImg  = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxOverlay = document.getElementById('lightbox-overlay');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+
+  // Collect all lightbox-able images from Events + Design sections
+  const LIGHTBOX_SELECTORS = [
+    '#event .event-gallery-masonry .gallery-img',
+    '#design .gallery-masonry .gallery-img',
+    '#design .gallery-grid .gallery-img',
+    '#design .uxui-img',
+    '#design .carousel-card-img',
+  ];
+
+  let lbImages = [];
+  let lbIndex  = 0;
+
+  const buildLbImages = () => {
+    lbImages = [];
+    LIGHTBOX_SELECTORS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(img => {
+        if (!lbImages.includes(img)) lbImages.push(img);
+      });
+    });
+  };
+
+  const openLightbox = (img) => {
+    buildLbImages();
+    lbIndex = lbImages.indexOf(img);
+    if (lbIndex < 0) lbIndex = 0;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    updateArrows();
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => { lightboxImg.src = ''; }, 320);
+  };
+
+  const showPrev = () => {
+    if (lbImages.length === 0) return;
+    lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+    lightboxImg.src = lbImages[lbIndex].src;
+  };
+
+  const showNext = () => {
+    if (lbImages.length === 0) return;
+    lbIndex = (lbIndex + 1) % lbImages.length;
+    lightboxImg.src = lbImages[lbIndex].src;
+  };
+
+  const updateArrows = () => {
+    lightboxPrev.style.display = lbImages.length > 1 ? 'flex' : 'none';
+    lightboxNext.style.display = lbImages.length > 1 ? 'flex' : 'none';
+  };
+
+  // Attach click to images
+  const attachLightboxToImages = () => {
+    buildLbImages();
+    lbImages.forEach(img => {
+      if (img.dataset.lbBound) return;
+      img.dataset.lbBound = '1';
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(img);
+      });
+    });
+  };
+
+  // Re-attach when tabs switch (Design tabs show/hide images)
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTimeout(attachLightboxToImages, 60);
+    });
+  });
+
+  // Initial attach
+  attachLightboxToImages();
+  setTimeout(attachLightboxToImages, 800); // after lazy load
+
+  // Listen for carousel active-card click → open lightbox
+  document.addEventListener('lb-open', (e) => {
+    const img = e.detail && e.detail.img;
+    if (img) openLightbox(img);
+  });
+
+  // Controls
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxOverlay.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+  lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  // Touch swipe on lightbox
+  let lbTouchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    lbTouchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - lbTouchStartX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) showPrev(); else showNext();
+    }
+  }, { passive: true });
 
   console.log('%c TRÚC LÊ PORTFOLIO ', 'background:#00f0ff;color:#000;font-family:monospace;font-size:14px;font-weight:bold;padding:8px 16px;');
   console.log('%c Creative Producer · Designer · Editor ', 'color:#00f0ff;font-family:monospace;');

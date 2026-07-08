@@ -18,6 +18,17 @@
 
   <!-- Scanline Overlay -->
   <div class="scanline-overlay"></div>
+
+  <!-- ═══ LIGHTBOX MODAL ═══ -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Đóng">✕</button>
+    <div class="lightbox-overlay" id="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <img class="lightbox-img" id="lightbox-img" src="" alt="Preview" />
+    </div>
+    <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Trước">‹</button>
+    <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Tiếp">›</button>
+  </div>
   <!-- Noise Overlay -->
   <div class="noise-overlay"></div>
 
@@ -202,12 +213,95 @@
         <!-- Timeline -->
         <div class="cv-timeline">
 
+          <!-- SUNRISE EVENT — Separate entry -->
+          <div class="cv-timeline-item cv-timeline-item--client" id="cv-sunrise">
+            <div class="cv-tl-period cv-tl-period--client">
+              <div class="cv-tl-client-icon">⬡</div>
+            </div>
+            <div class="cv-tl-content">
+              <div class="cv-tl-company-row">
+                <h3 class="cv-tl-company cv-tl-company--client">SUNRISE EVENT</h3>
+                <div class="cv-tl-roles-inline">
+                  <span>Event Operator</span>
+                  <span>Designer</span>
+                  <span>Editor</span>
+                </div>
+              </div>
+              <div class="cv-tl-projects">
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>PHUQUOC Ironman 5150 <strong>2022</strong></div>
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>HANOI Marathon Techcombank <strong>2022 · 2023 · 2024 · 2025</strong></div>
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>HCM Marathon Techcombank <strong>2022 · 2023 · 2025</strong></div>
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>DANANG Ironman 70.3 <strong>2023 · 2025 · 2026</strong></div>
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>PHUQUOC Ironman 70.3 <strong>2023</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FREELANCE — Active Period -->
+          <div class="cv-timeline-item cv-timeline-item--featured" id="cv-freelance">
+            <div class="cv-tl-period">
+              <span class="cv-tl-year cv-tl-year--now">2026</span>
+              <div class="cv-tl-dot cv-tl-dot--active"></div>
+              <span class="cv-tl-year">2025</span>
+            </div>
+            <div class="cv-tl-content">
+              <div class="cv-tl-company-row">
+                <h3 class="cv-tl-company">FREELANCE</h3>
+                <div class="cv-tl-roles-inline">
+                  <span>Event Operator</span>
+                  <span>Designer</span>
+                  <span>Editor</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SENIART AGENCY — Company info only -->
+          <div class="cv-timeline-item" id="cv-seniart">
+            <div class="cv-tl-period">
+              <span class="cv-tl-year">2025</span>
+              <div class="cv-tl-dot"></div>
+              <span class="cv-tl-year">2019</span>
+            </div>
+            <div class="cv-tl-content">
+              <div class="cv-tl-company-row">
+                <h3 class="cv-tl-company">SENIART AGENCY</h3>
+                <div class="cv-tl-roles-inline">
+                  <span>Graphic &amp; Motion Designer</span>
+                  <span>Event Operator</span>
+                </div>
+              </div>
+              <div class="cv-tl-projects">
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>3 years as a Designer</div>
+                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>4 years as an Event Operator &amp; Creative Producer</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NBK DESIGN (No Projects) -->
+          <div class="cv-timeline-item" id="cv-nbk-producer">
+            <div class="cv-tl-period">
+              <span class="cv-tl-year">2019</span>
+              <div class="cv-tl-dot"></div>
+              <span class="cv-tl-year">2017</span>
+            </div>
+            <div class="cv-tl-content">
+              <div class="cv-tl-company-row">
+                <h3 class="cv-tl-company">NBK DESIGN</h3>
+                <div class="cv-tl-roles-inline">
+                  <span>Designer</span>
+                  <span>Media Producer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Graphic Designer & Media Producer Projects (No Company, No Box) -->
           <div class="cv-timeline-item" id="cv-nbk-designer">
             <div class="cv-tl-period">
-              <span class="cv-tl-year">2017</span>
-              <div class="cv-tl-dot"></div>
               <span class="cv-tl-year">2019</span>
+              <div class="cv-tl-dot"></div>
+              <span class="cv-tl-year">2017</span>
             </div>
             <div class="cv-tl-content">
               <div class="cv-tl-projects">
@@ -225,89 +319,6 @@
                 </div>
                 <div class="cv-tl-project-item">
                   <span class="cv-tl-dot-sm"></span>Director at <strong>NGOI SAU XE BA</strong> Viral Project
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- NBK DESIGN (No Projects) -->
-          <div class="cv-timeline-item" id="cv-nbk-producer">
-            <div class="cv-tl-period">
-              <span class="cv-tl-year">2017</span>
-              <div class="cv-tl-dot"></div>
-              <span class="cv-tl-year">2019</span>
-            </div>
-            <div class="cv-tl-content">
-              <div class="cv-tl-company-row">
-                <h3 class="cv-tl-company">NBK DESIGN</h3>
-                <div class="cv-tl-roles-inline">
-                  <span>Designer</span>
-                  <span>Media Producer</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SENIART AGENCY — Company info only -->
-          <div class="cv-timeline-item" id="cv-seniart">
-            <div class="cv-tl-period">
-              <span class="cv-tl-year">2019</span>
-              <div class="cv-tl-dot"></div>
-              <span class="cv-tl-year">2025</span>
-            </div>
-            <div class="cv-tl-content">
-              <div class="cv-tl-company-row">
-                <h3 class="cv-tl-company">SENIART AGENCY</h3>
-                <div class="cv-tl-roles-inline">
-                  <span>Graphic &amp; Motion Designer</span>
-                  <span>Event Operator</span>
-                </div>
-              </div>
-              <div class="cv-tl-projects">
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>3 years as a Designer</div>
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>4 years as an Event Operator &amp; Creative Producer</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SUNRISE EVENT — Separate entry -->
-          <div class="cv-timeline-item cv-timeline-item--client" id="cv-sunrise">
-            <div class="cv-tl-period cv-tl-period--client">
-              <div class="cv-tl-client-icon">⬡</div>
-            </div>
-            <div class="cv-tl-content">
-              <div class="cv-tl-company-row">
-                <h3 class="cv-tl-company cv-tl-company--client">SUNRISE EVENT</h3>
-                <div class="cv-tl-roles-inline">
-                  <span>Event Operator</span>
-                  <span>Designer</span>
-                  <span>Editor</span>
-                </div>
-              </div>
-              <div class="cv-tl-projects">
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>PHUQUOC Ironman 5150</div>
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>HANOI Marathon Techcombank</div>
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>HCM Marathon Techcombank</div>
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>DANANG Ironman 70.3</div>
-                <div class="cv-tl-project-item"><span class="cv-tl-dot-sm"></span>PHUQUOC Ironman 70.3</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- FREELANCE — Active Period -->
-          <div class="cv-timeline-item cv-timeline-item--featured" id="cv-freelance">
-            <div class="cv-tl-period">
-              <span class="cv-tl-year">2025</span>
-              <div class="cv-tl-dot cv-tl-dot--active"></div>
-              <span class="cv-tl-year cv-tl-year--now">2026</span>
-            </div>
-            <div class="cv-tl-content">
-              <div class="cv-tl-company-row">
-                <h3 class="cv-tl-company">FREELANCE</h3>
-                <div class="cv-tl-roles-inline">
-                  <span>Event Operator</span>
-                  <span>Designer</span>
-                  <span>Editor</span>
                 </div>
               </div>
             </div>
